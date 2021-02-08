@@ -13,7 +13,6 @@ const validateLoginInput = require('../../validation/login');
 
 // Load User Model
 const User = require('../../models/User');
-const e = require('express');
 
 // @route   GET api/users/test
 // @desc    Tests users route
@@ -105,7 +104,8 @@ router.post('/login', (req, res) => {
             keys.secretOrKey,
             { expiresIn: 3600 },
             (err, token) => {
-              res.json({ sucess: true, token: 'Bearer ' + token });
+              //res.json({ sucess: true, token: 'Bearer ' + token });
+              res.json({ sucess: true, token });
             }
           );
         } else {
