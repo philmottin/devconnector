@@ -6,7 +6,7 @@ module.exports = function validateLoginInput(data) {
 
   // if data.field is blank, it will not be an empty string, it will be an empty object so our global isEmpty function checks if its empty and return as empty string
   data.email = !isEmpty(data.email) ? data.email : '';
-  data.password = !isEmpty(data.password) ? data.password.toString() : '';
+  data.password = !isEmpty(data.password) ? data.password : '';
 
   if (!Validator.isEmail(data.email)) {
     errors.email = 'Email is invalid';

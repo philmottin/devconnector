@@ -5,6 +5,8 @@ const passport = require('passport');
 
 // Load input validation
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 // Load Models
 const User = require('../../models/User');
@@ -158,6 +160,78 @@ router.post(
         });
       }
     });
+  }
+);
+
+// @route   POST api/profile/experience
+// @desc    Add profile experience
+// @access  Private
+router.post(
+  '/experience',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateExperienceInput(req.body);
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        if (!profile) {
+          errors.noprofile = 'There is no profile for this user';
+          return res.status(404).json(errors);
+        }
+        const newExp = {
+          title: req.body.title,
+          company: req.body.company,
+          location: req.body.location,
+          from: req.body.from,
+          to: req.body.to,
+          current: req.body.current,
+          description: req.body.description,
+        };
+        // Add to experience array. unshift is to add to the beginning of the array
+        profile.experience.unshift(newExp);
+        profile.save().then((profile) => res.json(profile));
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   POST api/profile/education
+// @desc    Add profile education
+// @access  Private
+router.post(
+  '/education',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateEducationInput(req.body);
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        if (!profile) {
+          errors.noprofile = 'There is no profile for this user';
+          return res.status(404).json(errors);
+        }
+        const newEdu = {
+          school: req.body.school,
+          degree: req.body.degree,
+          fieldofstudy: req.body.fieldofstudy,
+          from: req.body.from,
+          to: req.body.to,
+          current: req.body.current,
+          description: req.body.description,
+        };
+        // Add to experience array. unshift is to add to the beginning of the array
+        profile.education.unshift(newEdu);
+        profile.save().then((profile) => res.json(profile));
+      })
+      .catch((err) => res.status(404).json(err));
   }
 );
 
