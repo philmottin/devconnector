@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
+import { registerUser } from '../../actions/authAction';
 
 class Register extends Component {
   constructor() {
@@ -29,6 +32,9 @@ class Register extends Component {
       password2: this.state.password2,
     };
     console.log(newUser);
+
+    this.props.registerUser(newUser);
+    /*
     axios
       .post('/api/users/register', newUser)
       .then((res) => console.log(res.data))
@@ -36,13 +42,16 @@ class Register extends Component {
         console.log(err.response.data);
         this.setState({ errors: err.response.data });
       });
+      */
   }
 
   render() {
     const { errors } = this.state;
+    const { user } = this.props.auth;
 
     return (
       <div className='register'>
+        {user ? user.name : null}
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
@@ -133,4 +142,17 @@ class Register extends Component {
   }
 }
 
-export default Register;
+// Any prop in component should be added to propTypes
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+// make it accessible via this.props.auth, like this.props.auth.user
+// first parameter auth can be anything
+// seconda parameter state.auth comes from reducers/index.js
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { registerUser })(Register);
