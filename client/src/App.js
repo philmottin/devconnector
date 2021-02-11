@@ -32,7 +32,8 @@ if (localStorage.jwtToken) {
     // TODO: Clear current profile
 
     // redirect to login
-    window.location.href = '/login';
+    // TODO: commented because was causing redirect loop. Should investigate later
+    // window.location.href = '/login';
   }
 }
 
