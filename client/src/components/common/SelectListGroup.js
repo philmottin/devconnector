@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
   const selectOption = options.map((option) => (
     <option key={option.label} value={option.value}>
-      {option.value}
+      {option.label}
     </option>
   ));
   return (
@@ -32,7 +32,7 @@ SelectListGroup.propTypes = {
   info: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  optiona: PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired,
 };
 
 export default SelectListGroup;
