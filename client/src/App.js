@@ -33,13 +33,12 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     // Logout user
-    store.dispatch(logoutUser);
+    store.dispatch(logoutUser());
     // Clear current profile
     store.dispatch(clearCurrentProfile());
 
     // redirect to login
-    // TODO: commented because was causing redirect loop. Should investigate later
-    // window.location.href = '/login';
+    window.location.href = '/login';
   }
 }
 
