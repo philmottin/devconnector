@@ -5,7 +5,6 @@ import {
   PROFILE_LOADING,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER,
 } from './types';
 
 import { logoutUser } from './authAction';
