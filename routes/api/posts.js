@@ -201,7 +201,7 @@ router.delete(
         }
         const removeIndex = post.comments
           .map((item) => item._id.toString())
-          .indexOf(req.params._id);
+          .indexOf(req.params.comment_id);
 
         // Splice out of array
         post.comments.splice(removeIndex, 1);
