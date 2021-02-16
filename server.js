@@ -16,6 +16,15 @@ const app = express();
 // Body parser
 app.use(express.json());
 
+// Heroku redirect http to https
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
+}
+
 // DB Config
 const db = require('./config/keys').mongoURI;
 
